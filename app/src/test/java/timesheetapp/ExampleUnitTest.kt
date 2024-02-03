@@ -1,4 +1,4 @@
-package com.example.timesheetapp
+package timesheetapp
 
 import org.junit.Test
 
