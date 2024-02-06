@@ -1,3 +1,22 @@
 <resources>
     <string name="app_name">TimeSheetApp</string>
+    <string name="repair_order">Repair Order</string>
+    <string name="enter_repair_order">Enter repair order</string>
+    <string name="enter_new_data">Enter new data</string>
+
+    <!-- main information -->
+    <string name="repairOrderNumber">R/O Number</string>
+    <string name="keyTag">Key Tag#</string>
+    <string name="bodyLabor">Body Labor Hour</string>
+    <string name="machineLabor">Machine Labor Hour</string>
+    <string name="ticketClosedTime">Order Closed Time</string>
+    <string name="vehicleIdentificationNumber">Vehicle Identification Number</string>
+    <string name="carYear">Car Year</string>
+    <string name="carModel">Car Model</string>
+    <string name="carMake">Car Make</string>
+    <string name="carColor">Car Color</string>
+
+    <!-- operation section -->
+    <string name="update">Update</string>
+    <string name="close_ticket">Close Ticket</string>
 </resources>
