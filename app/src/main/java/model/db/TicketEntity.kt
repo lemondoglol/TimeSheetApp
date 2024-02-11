@@ -2,11 +2,12 @@ package model.db
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import util.convertLongToYearMonthDay
 
 @Entity(tableName = TICKET_TABLE)
 data class TicketEntity(
     @PrimaryKey val repairOrderNumber: Long,
-    val keyTag: String = "N/A",
+    val keyTag: Long = -1L,
     val bodyLabor: Double = 0.0,
     val machineLabor: Double = 0.0,
     val ticketClosedTime: Long? = null,
@@ -16,6 +17,12 @@ data class TicketEntity(
     val carMake: String = "N/A",
     val carColor: String = "N/A",
 ) {
+    override fun toString(): String {
+        return "repairOrderNumber: $repairOrderNumber; keyTag: $keyTag; bodyLabor: " +
+                "$bodyLabor; machineLabor: $machineLabor; " +
+                "ticketClosedTime: ${ticketClosedTime?.convertLongToYearMonthDay()}"
+    }
+
     companion object {
         val TESTING_TICKET = TicketEntity(
             repairOrderNumber = -1,

@@ -7,5 +7,17 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="timesheetapp.HomeFragment"
-        android:label="HomeFragment" />
+        android:label="HomeFragment" >
+        <action
+            android:id="@+id/action_homeFragment_to_summaryFragment"
+            app:destination="@id/summaryFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/summaryFragment"
+        android:name="timesheetapp.summary.SummaryFragment"
+        android:label="SummaryFragment" >
+        <action
+            android:id="@+id/action_summaryFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
 </navigation>

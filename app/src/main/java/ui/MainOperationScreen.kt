@@ -30,7 +30,7 @@ internal fun TickerMainInformationSecion(
         TicketInformationRow(
             modifier = Modifier.fillMaxWidth(),
             header = stringResource(R.string.keyTag),
-            oldInfo = ticketEntity.keyTag,
+            oldInfo = ticketEntity.keyTag.toString(),
             keyboardType = KeyboardType.Decimal,
             onValueChange = viewModel::onKeyTagValueChanged,
         )

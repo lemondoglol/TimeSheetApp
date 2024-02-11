@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import model.db.TicketEntity
 import repository.interfaces.TicketRepository
 import timesheetapp.coroutine.DispatcherProvider
@@ -59,9 +60,11 @@ class HomeFragmentViewModel @Inject constructor(
     }
 
     internal fun onKeyTagValueChanged(value: String) {
-        newRepairOrder.value = newRepairOrder.value.copy(
-            keyTag = value,
-        )
+        runBlocking {
+            newRepairOrder.value = newRepairOrder.value.copy(
+                keyTag = value.toLong(),
+            )
+        }
     }
 
     internal fun onBodyLaborValueChanged(value: String) {

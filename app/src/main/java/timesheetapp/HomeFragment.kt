@@ -7,10 +7,9 @@ import android.view.ViewGroup
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.Surface
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.Update
+import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -18,7 +17,9 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.res.stringResource
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.findNavController
 import core.ButtonWithIcon
+import core.CustomBottomNavigationItemView
 import core.OutLinedNumberInputTextField
 import dagger.hilt.android.AndroidEntryPoint
 import ui.Padding
@@ -36,11 +37,27 @@ class HomeFragment : Fragment() {
     ): View {
         return ComposeView(requireContext()).apply {
             setContent {
-                Surface(modifier = Modifier.fillMaxSize()) {
-                    MainOperationScreen(
-                        modifier = Modifier.fillMaxSize().padding(Padding.rowPadding),
-                    )
-                }
+                Scaffold(
+                    bottomBar = {
+                        CustomBottomNavigationItemView(
+                            onSummaryButtonAction = {
+                                val action = HomeFragmentDirections.actionHomeFragmentToSummaryFragment()
+                                findNavController().navigate(action)
+                            }
+                        )
+                    },
+                    content = {
+                        MainOperationScreen(
+                            modifier = Modifier
+                                .padding(
+                                    top = it.calculateTopPadding(),
+                                    bottom = it.calculateBottomPadding(),
+                                )
+                                .fillMaxSize()
+                                .padding(Padding.rowPadding),
+                        )
+                    }
+                )
             }
         }
     }
