@@ -44,6 +44,7 @@ class SummaryFragment : Fragment() {
                 Scaffold(
                     bottomBar = {
                         CustomBottomNavigationItemView(
+                            summaryPageSelected = true,
                             onHomeButtonAction = {
                                 val action = SummaryFragmentDirections.actionSummaryFragmentToHomeFragment()
                                 findNavController().navigate(action)

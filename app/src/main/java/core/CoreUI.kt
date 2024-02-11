@@ -1,5 +1,7 @@
 package core
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.KeyboardActions
@@ -12,6 +14,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -134,6 +137,28 @@ fun ButtonWithIcon(
     Button(
         modifier = modifier,
         onClick = onClick,
+    ) {
+        Icon(
+            modifier = Modifier.size(iconSize),
+            imageVector = imageVector,
+            contentDescription = null,
+        )
+        Spacer(Modifier.size(ButtonDefaults.IconSpacing))
+        Text(text = text)
+    }
+}
+
+@Composable
+fun IconText(
+    modifier: Modifier = Modifier,
+    text: String,
+    iconSize: Dp =  ButtonDefaults.IconSize,
+    imageVector: ImageVector = Icons.Filled.Add,
+) {
+    Row(
+        modifier = modifier,
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween,
     ) {
         Icon(
             modifier = Modifier.size(iconSize),
