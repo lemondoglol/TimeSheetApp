@@ -18,4 +18,7 @@ interface TicketDao {
 
     @Query("Select * From $TICKET_TABLE where repairOrderNumber=:repairOrderNumber")
     suspend fun getTicket(repairOrderNumber: String): TicketEntity?
+
+    @Query("Select * From $TICKET_TABLE where ticketClosedTime >= :startTime AND ticketClosedTime <= :endTime")
+    suspend fun getTicketsWithinPeriod(startTime: Long, endTime: Long = System.currentTimeMillis()): List<TicketEntity>
 }
