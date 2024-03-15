@@ -58,7 +58,13 @@ class SummaryFragment : Fragment() {
                         )
                     },
                     content = {
-                        SummaryScreen(modifier = Modifier.padding(top = it.calculateTopPadding()))
+                        SummaryScreen(modifier = Modifier
+                            .fillMaxSize()
+                            .padding(
+                                vertical = Padding.paddingMedium,
+                                horizontal = Padding.paddingMedium,
+                            )
+                        )
                     }
                 )
             }
@@ -72,7 +78,7 @@ class SummaryFragment : Fragment() {
         Column(
             modifier = modifier,
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center,
+            verticalArrangement = Arrangement.spacedBy(Padding.paddingMedium),
         ) {
             // Search Field
             SearchInputField(
@@ -82,7 +88,7 @@ class SummaryFragment : Fragment() {
             val shareLauncher = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { }
 
             ButtonWithIcon(
-                text = "Share",
+                text = stringResource(R.string.share),
                 imageVector = Icons.Filled.Share,
                 onClick = {
                     val contentToShare = viewModel.currentReport.value
@@ -92,6 +98,10 @@ class SummaryFragment : Fragment() {
             )
 
             // Testing, remove it
+            Text(
+                text = "Search from: ${viewModel.searchResult.value}"
+            )
+
             Text(
                 text = viewModel.currentReport.value
             )
@@ -109,11 +119,13 @@ class SummaryFragment : Fragment() {
             horizontalArrangement = Arrangement.SpaceAround,
         ) {
             DatePickerButton(
-                text = stringResource(R.string.select_start_date)
+                text = stringResource(R.string.select_start_date),
+                onDateSelected = viewModel::onSelectedStartDate,
             )
 
             DatePickerButton(
-                text = stringResource(R.string.select_end_date)
+                text = stringResource(R.string.select_end_date),
+                onDateSelected = viewModel::onSelectedEndDate,
             )
         }
     }
@@ -130,6 +142,7 @@ class SummaryFragment : Fragment() {
     private fun shareContent(shareLauncher: ActivityResultLauncher<Intent>, contentUri: Uri) {
         val shareIntent = Intent(Intent.ACTION_SEND).apply {
             type = "text/plain"
+//            type = "application/pdf"
             putExtra(Intent.EXTRA_STREAM, contentUri)
         }
         shareLauncher.launch(shareIntent)

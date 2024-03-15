@@ -22,6 +22,7 @@ fun DatePickerButton(
     datePickerState: DatePickerState = rememberDatePickerState(
         initialDisplayMode = DisplayMode.Picker,
     ),
+    onDateSelected: (Long?) -> Unit = {},
     // For access selected date
     // datePickerState.selectedDateMillis?.convertLongToYearMonthDay()
 ) {
@@ -40,7 +41,10 @@ fun DatePickerButton(
             DatePickerDialog(
                 onDismissRequest = { showDialog.value = false },
                 confirmButton = {
-                    TextButton(onClick = { showDialog.value = false }) {
+                    TextButton(onClick = {
+                        showDialog.value = false
+                        onDateSelected(datePickerState.selectedDateMillis)
+                    }) {
                         Text(stringResource(R.string.ok))
                     }
                 },
