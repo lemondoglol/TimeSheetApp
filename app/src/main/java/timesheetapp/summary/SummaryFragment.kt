@@ -10,7 +10,9 @@ import android.view.ViewGroup
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
@@ -21,6 +23,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.sp
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -31,8 +36,9 @@ import core.DatePickerButton
 import dagger.hilt.android.AndroidEntryPoint
 import timesheetapp.R
 import ui.Padding
+import java.io.BufferedWriter
 import java.io.File
-import java.io.FileOutputStream
+import java.io.FileWriter
 
 @AndroidEntryPoint
 class SummaryFragment : Fragment() {
@@ -92,17 +98,19 @@ class SummaryFragment : Fragment() {
                 imageVector = Icons.Filled.Share,
                 onClick = {
                     val contentToShare = viewModel.currentReport.value
-                    val sharedFileUri = createTemporaryFile(requireContext(), "shared_content.txt", contentToShare)
-                    shareContent(shareLauncher, sharedFileUri)
+                    contentToShare.let {
+                        val sharedFileUri = createTemporaryFile(requireContext(), "shared_content.txt", it)
+                        shareContent(shareLauncher, sharedFileUri)
+                    }
                 }
             )
 
             // Testing, remove it
             Text(
-                text = "Search from: ${viewModel.searchResult.value}"
+                text = "Search from: ${viewModel.searchDateRange.value}"
             )
 
-            Text(
+            HorizontalScrollableTextView(
                 text = viewModel.currentReport.value
             )
         }
@@ -132,9 +140,10 @@ class SummaryFragment : Fragment() {
 
     private fun createTemporaryFile(context: android.content.Context, fileName: String, content: String): Uri {
         val file = File(context.cacheDir, fileName)
-        val fileOutputStream = FileOutputStream(file)
-        fileOutputStream.write(content.toByteArray())
-        fileOutputStream.close()
+
+        BufferedWriter(FileWriter(file)).use { writer ->
+            writer.write(content)
+        }
 
         return FileProvider.getUriForFile(context, "${context.packageName}.provider", file)
     }
@@ -146,6 +155,24 @@ class SummaryFragment : Fragment() {
             putExtra(Intent.EXTRA_STREAM, contentUri)
         }
         shareLauncher.launch(shareIntent)
+    }
+
+    @Composable
+    private fun HorizontalScrollableTextView(text: String) {
+        val scrollState = rememberScrollState()
+
+        Row(
+            modifier = Modifier
+                .horizontalScroll(scrollState)
+                .padding(Padding.paddingSmall)
+        ) {
+            Text(
+                text = text,
+                fontFamily = FontFamily.Monospace,
+                fontSize = 14.sp,
+                textAlign = TextAlign.Start,
+            )
+        }
     }
 
 }

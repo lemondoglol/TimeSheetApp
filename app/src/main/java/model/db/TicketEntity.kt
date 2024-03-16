@@ -18,15 +18,21 @@ data class TicketEntity(
     val carColor: String = "N/A",
 ) {
     override fun toString(): String {
-        return "repairOrderNumber: $repairOrderNumber; keyTag: $keyTag; bodyLabor: " +
-                "$bodyLabor; machineLabor: $machineLabor; " +
-                "ticketClosedTime: ${ticketClosedTime?.convertLongToYearMonthDay()}"
+        return repairOrderNumber.toString().padEnd(5) +
+                bodyLabor.toString().padEnd(14) +
+                machineLabor.toString().padEnd(17) +
+                ticketClosedTime?.convertLongToYearMonthDay()
     }
 
     companion object {
         val TESTING_TICKET = TicketEntity(
             repairOrderNumber = -1,
         )
+        val TicketEntityHeader = "" +
+                "RO".padEnd(5) +
+                "BodyLaborHrs".padEnd(13) +
+                "MachineLaborHrs".padEnd(16) +
+                "OrderCloseTime"
     }
 }
 
